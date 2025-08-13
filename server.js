@@ -1,16 +1,52 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import ordersRouter from './routes/orders.js';
-import statsRouter from './routes/stats.js';
+import { getShopifyOrders, getShopifyVisitors, getShopifyRevenue, getShopifyConversion } from './shopify.js';
 
-dotenv.config();
 const app = express();
-app.use(cors());
 app.use(express.json());
 
-app.use('/api/orders', ordersRouter);
-app.use('/api/stats', statsRouter);
+// CORS pour le frontend Vercel
+app.use(cors({
+  origin: 'https://frontend-folder-xngu.vercel.app'
+}));
 
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Backend running on ${PORT}`));
+// Routes
+app.get('/orders', async (req, res) => {
+  try {
+    const orders = await getShopifyOrders();
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/visitors', async (req, res) => {
+  try {
+    const visitors = await getShopifyVisitors();
+    res.json(visitors);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/revenue', async (req, res) => {
+  try {
+    const revenue = await getShopifyRevenue();
+    res.json(revenue);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/conversion', async (req, res) => {
+  try {
+    const conversion = await getShopifyConversion();
+    res.json(conversion);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Démarrage du serveur
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
