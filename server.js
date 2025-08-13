@@ -7,7 +7,9 @@ app.use(express.json());
 
 // CORS pour le frontend Vercel
 app.use(cors({
-  origin: 'https://frontend-folder-xngu.vercel.app'
+  origin: 'https://frontend-folder-xngu.vercel.app', // ton frontend exact
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],        // toutes les méthodes nécessaires
+  allowedHeaders: ['Content-Type', 'Authorization'] // headers que tu utilises
 }));
 
 // Routes
