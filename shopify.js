@@ -23,9 +23,18 @@ export async function getShopifyVisitors() {
 
 // Exemple fictif pour chiffre d'affaires
 export async function getShopifyRevenue() {
-  const orders = await getShopifyOrders();
-  const revenue = orders.reduce((acc, o) => acc + parseFloat(o.total_price || 0), 0);
-  return { revenue };
+  const orders = await getShopifyOrders() || []; // si undefined, on prend un tableau vide
+  if (!Array.isArray(orders)) {
+    console.warn('Orders is not an array:', orders);
+    orders = [];
+  }
+
+  const revenue = orders.reduce((total, order) => {
+    const price = parseFloat(order.total_price) || 0;
+    return total + price;
+  }, 0);
+
+  return revenue;
 }
 
 // Exemple fictif pour taux de conversion
