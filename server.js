@@ -13,7 +13,7 @@ app.use(cors({
 }));
 
 // Routes
-app.get('/orders', async (req, res) => {
+app.get('/api/orders', async (req, res) => {
   try {
     const orders = await getShopifyOrders();
     res.json(orders);
@@ -22,7 +22,7 @@ app.get('/orders', async (req, res) => {
   }
 });
 
-app.get('/visitors', async (req, res) => {
+app.get('/api/visitors', async (req, res) => {
   try {
     const visitors = await getShopifyVisitors();
     res.json(visitors);
@@ -31,7 +31,7 @@ app.get('/visitors', async (req, res) => {
   }
 });
 
-app.get('/revenue', async (req, res) => {
+app.get('/api/revenue', async (req, res) => {
   try {
     const revenue = await getShopifyRevenue();
     res.json(revenue);
@@ -40,7 +40,7 @@ app.get('/revenue', async (req, res) => {
   }
 });
 
-app.get('/conversion', async (req, res) => {
+app.get('/api/conversion', async (req, res) => {
   try {
     const conversion = await getShopifyConversion();
     res.json(conversion);
