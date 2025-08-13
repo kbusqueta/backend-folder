@@ -13,38 +13,26 @@ app.use(cors({
 }));
 
 // Routes
+// /api/orders
 app.get('/api/orders', async (req, res) => {
   try {
-    const orders = await getShopifyOrders();
-    res.json(orders);
+    const orders = await getShopifyOrders(); 
+    res.json({ orders });
   } catch (err) {
+    console.error(err);   // <- très important pour debug
     res.status(500).json({ error: err.message });
   }
 });
 
-app.get('/api/visitors', async (req, res) => {
+// /api/stats
+app.get('/api/stats', async (req, res) => {
   try {
     const visitors = await getShopifyVisitors();
-    res.json(visitors);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.get('/api/revenue', async (req, res) => {
-  try {
     const revenue = await getShopifyRevenue();
-    res.json(revenue);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.get('/api/conversion', async (req, res) => {
-  try {
     const conversion = await getShopifyConversion();
-    res.json(conversion);
+    res.json({ visitors, revenue, conversion });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
